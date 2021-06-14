@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Type
 class Account:
     def __init__(self,name,phone_number):
         self.name=name
@@ -12,6 +13,10 @@ class Account:
       return f"Hello {self.name} your balance {self.balance} "
 
     def deposit(self,amount):
+      try:
+        10*amount
+      except TypeError:
+         return f"amount must be in figures"
       if amount < 0:
          return f"Hello {self.name} your balance is {self.balance} "
       else:
@@ -27,7 +32,12 @@ class Account:
          return self. show_balance()
 
     def withdraw(self,amount):
-       if amount > 0:
+      try:
+        10*amount
+      except TypeError:
+        return f"amount must be in figures"  
+
+      if amount > 0:
         self.balance-=amount
         now=datetime.now()
         transaction={
@@ -44,6 +54,10 @@ class Account:
       return f"Hello {self.name} you have borrowed a loan of {amount} "
 
     def repay_loan(self,amount):
+      try:
+        10*amount
+      except TypeError:
+        return f"amount must be in figures"  
       return f"Hello {self.name} you have repaid a loan of {amount} "
 
     def show_statement(self):
@@ -86,6 +100,7 @@ class Account:
      
 
     def repay_loan(self,amount):
+      
       if amount<0:
         return f"you have repaid your loan"
       elif amount<=self.loan:
@@ -106,13 +121,50 @@ class Account:
       }
       self.statement.append(transaction)
       return f" you have repaid {self.loan} you have {self.loan} your balance is {self.balance}"
-            
 
-    
-                  
+    # def transfer(self,Account,amount):
+    #   fee=amount*0.05
+    #   self.balance-=total
+    #   Account.deposit(amount)
+    #   total=amount+fee
+    #   if total>self.balance:
+    #     return f"your balance is {self.balance} and you need transfer at least {total} for this account"
 
+    #   else:
+        
+    def transfer(self,account,amount):
+        try:
+            10+amount
+        except TypeError:
+            return f"The amount should be in figures"
+        fee= amount*0.05
+        total=amount + fee
 
+        if amount<0:
+            return f"You are not qualified to make a transfer"
+        elif total>self.balance:
+            return f"your balance is {self.balance} and you need atleast {total} for this transfer "
+        else:
+            account.deposit(200000)
+            self.balance=total
+            return f"The amount has been transferred to the account number"
 
+class Mobile_money(Account):
 
-                        
+      def __init__(self,name,Phone_number,service_provder):
+        Account.__init__(name,Phone_number)
+        self.service_provider=service_provder
+
+      def buy_airtime(self,amount):
+        try:
+            10+amount
+        except TypeError:
+            return f"The anmount sghould be in figures"
+        if amount<0:
+            return f"You have insufficient funds"
+        elif self.balance>amount:
+            return f"Your balance is low to buy this amount of credit"
+        else:
+            self.balance-=amount
+            return f"You have purchased airtime worth {amount} from {self.service_provider}. Your account balance is {self.balance}"        
 
